@@ -1,7 +1,7 @@
 {
   "name": "typing-simulator",
   "displayName": "Typing Simulator",
-  "description": "Simulates typing for use in presentations or video recordings",
+  "description": "Simulates typing for use in presentations or live video recordings. Typing from file or clipboard, with auto typing mode or manual typing mode.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.84.0"
