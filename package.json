@@ -15,7 +15,11 @@
     "commands": [
       {
         "command": "typing-simulator.startCurrentFileTyping",
-        "title": "Typing Simulator: Start Current File Typing"
+        "title": "Typing Simulator: Start Typing From Current File"
+      },
+      {
+        "command": "typing-simulator.startClipboardTyping",
+        "title": "Typing Simulator: Start Typing From Clipboard"
       },
       {
         "command": "typing-simulator.continueTyping",

@@ -1,12 +1,14 @@
 import * as vscode from "vscode";
 type Status = "standby" | "typing" | "stoped" | "paused";
 type Mode = "auto" | "manual";
+type EOL = "lf" | "crlf";
 
 class State {
   private _status: Status = "standby";
   private _currentTypingText: string = "";
   private _lastPosition = new vscode.Position(0, 0);
   private _mode: Mode = "auto";
+  private _eol: EOL = "crlf";
 
   get status() {
     return this._status;
@@ -38,6 +40,14 @@ class State {
 
   set mode(value: Mode) {
     this._mode = value;
+  }
+
+  get eol() {
+    return this._eol;
+  }
+
+  set eol(value: EOL) {
+    this._eol = value;
   }
 }
 

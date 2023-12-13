@@ -15,7 +15,7 @@ async function typing(props: TypingProps): Promise<void> {
   if (!props.text || props.text.length == 0 || state.status == "stoped") return;
   var text = props.text;
   var pos = props.pos ?? new vscode.Position(0, 0);
-  const eol = vscode.window.activeTextEditor?.document.eol == vscode.EndOfLine.LF ? "LF" : "CRLF";
+  const eol = state.eol;
 
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
@@ -25,9 +25,8 @@ async function typing(props: TypingProps): Promise<void> {
 
   const textAction = applyActions(text, pos);
 
-  if (!textAction) {
-    return;
-  }
+  if (!textAction) return;
+
   text = textAction;
 
   var char = text.substring(0, 1);
@@ -36,8 +35,8 @@ async function typing(props: TypingProps): Promise<void> {
   editor
     .edit(function (editBuilder) {
       editBuilder.insert(pos, char);
-      if ((eol == "LF" && char == "\n") || (eol == "CRLF" && text.substring(0, 2) == "\r\n")) {
-        if (eol == "CRLF") charLength = 2;
+      if ((eol == "lf" && char == "\n") || (eol == "crlf" && text.substring(0, 2) == "\r\n")) {
+        if (eol == "crlf") charLength = 2;
         pos = new vscode.Position(pos.line + 1, 0);
         char = "";
       }
@@ -83,22 +82,28 @@ function delayTyping(text: string, pos: vscode.Position) {
   }, delay);
 }
 
+function nextBuffer(text: string, pos: vscode.Position) {
+  if (state.status == "typing" && state.mode == "auto") {
+    delayTyping(text, pos);
+  }
+}
+
 function applyActions(text: string, pos: vscode.Position): string | null {
-  const endOfLinePos = text.indexOf("\n");
-  const currentLine = text.substring(0, endOfLinePos);
+  const eolChar = state.eol == "lf" ? "\n" : "\r\n";
+  const eolLength = eolChar.length;
+  const endOfLinePos = text.indexOf(eolChar);
+  const currentLine = text.split(eolChar)[0];
 
   console.log("NEXT: " + currentLine);
 
   if (currentLine.match(/\/\/\[ignore-line\]/)) {
-    console.log("ignore");
-    text = text.substring(endOfLinePos + 1, text.length);
+    text = text.substring(currentLine.length + eolLength, text.length);
     const newPos = new vscode.Position(pos.line, 0);
-    delayTyping(text, newPos);
+    nextBuffer(text, newPos);
     return null;
   }
 
   if (currentLine.match(/^\/\/\[pause\]/)) {
-    console.log("pause");
     state.status = "paused";
     text = text.substring(endOfLinePos, text.length);
     state.currentTypingText = text;

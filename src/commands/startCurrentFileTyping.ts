@@ -9,8 +9,9 @@ const startCurrentFileTyping = () => {
   }
 
   state.status = "typing";
-  const document = editor.document;
+  state.eol = vscode.window.activeTextEditor?.document.eol == vscode.EndOfLine.LF ? "lf" : "crlf";
 
+  const document = editor.document;
   const textContent = document.getText();
 
   const fullRange = new vscode.Range(
@@ -22,7 +23,6 @@ const startCurrentFileTyping = () => {
   edit.delete(document.uri, fullRange);
 
   vscode.workspace.applyEdit(edit).then(() => {
-    console.log("editing\n");
     state.currentTypingText = textContent;
 
     if (state.mode == "auto")

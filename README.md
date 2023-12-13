@@ -1,71 +1,51 @@
-# Typing Simulator
+# Typing Simulator for VSCode
 
-Simulates typing for use in presentations or live video recordings. Typing from file or clipboard, with auto typing mode or manual typing mode.
+The **Typing Simulator** plugin is tailored for live presentations or video tutorials, offering a seamless way to simulate the typing of pre-written code. This feature proves invaluable by eliminating the risk of typos during presentations, allowing you to focus on your speech and presentation rather than worrying about the code input.
 
-## Features
+## Key Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Code Source Flexibility:** Whether your code is in an open file in VSCode or copied to the clipboard, Typing Simulator has you covered.
 
-For example if there is an image subfolder under your extension project workspace:
+- **Two Simulation Modes:**
 
-\!\[feature X\]\(images/feature-x.png\)
+  - _Automatic:_ Let the plugin simulate human-like typing automatically.
+  - _Manual:_ Control the simulation by manually pressing keys, offering flexibility and a more interactive experience during presentations.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Customizable Simulation Behavior:**
 
-## Requirements
+  - Set line-specific behaviors, such as ignoring a line or defining breakpoints.
+  - Adjust the typing speed for automatic mode, tailoring it to your presentation style.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- **Convenient Shortcuts (Tip):** To enhance your control over the simulation during live presentations or video recording, configure custom shortcuts in VSCode. Access VSCode's Keyboard Shortcuts settings (`File > Preferences > Keyboard Shortcuts`), search for Typing Simulator commands, and assign your preferred shortcuts.
 
-## Extension Settings
+## Available Commands:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- **Typing Simulator: Start Typing From Current File**
+- **Typing Simulator: Start Typing From Clipboard**
+- **Typing Simulator: Pause Typing**
+- **Typing Simulator: Continue Typing**
+- **Typing Simulator: Stop Typing**
 
-For example:
+## Why Typing Simulator?
 
-This extension contributes the following settings:
+This extension aims to combine the strengths of popular plugins with similar goals, such as HackerTyper, CoderTyper, and Live Auto-Type. By offering a feature-rich and customizable typing simulation experience, Typing Simulator ensures a smooth and error-free presentation of code, enhancing the overall quality of your live demos and video tutorials.
 
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
+## Getting Started
 
-## Known Issues
+1. Install the extension from the VSCode Marketplace.
+2. Open a code file or copy code to the clipboard.
+3. Configure simulation settings for each line.
+4. Set up custom shortcuts for a seamless presentation experience.
+5. Enjoy a hassle-free and engaging coding presentation or tutorial!
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Feel free to explore the documentation for in-depth information on features and customization options.
+
+**Happy Coding!**
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Hello! Wellcome to initial version
 
 ---
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**

@@ -1,32 +1,37 @@
-import { stat } from "fs";
 import * as vscode from "vscode";
-import { state } from "./state";
-import startCurrentFileTyping from "./commands/startCurrentFileTyping";
-import { typing, manualTyping } from "./typing";
+import * as commands from "./commands/load";
+import { manualTyping } from "./typing";
 
 export function activate(context: vscode.ExtensionContext) {
-  context.workspaceState.update("typingSimulator.status", "standby");
-
-  let startTyping = vscode.commands.registerCommand(
+  const startTypingFromFile = vscode.commands.registerCommand(
     "typing-simulator.startCurrentFileTyping",
-    startCurrentFileTyping,
+    commands.startCurrentFileTyping,
   );
 
-  let continueTyping = vscode.commands.registerCommand("typing-simulator.continueTyping", () => {
-    typing({
-      text: state.currentTypingText,
-      pos: state.lastPosition,
-    });
-  });
+  const startTypingFromClipboard = vscode.commands.registerCommand(
+    "typing-simulator.startClipboardTyping",
+    commands.startClipboardTyping,
+  );
 
-  let stopTyping = vscode.commands.registerCommand("typing-simulator.stopTyping", () => {
-    state.status = "stoped";
-    state.currentTypingText = "";
-  });
+  const continueTyping = vscode.commands.registerCommand(
+    "typing-simulator.continueTyping",
+    commands.continueTyping,
+  );
 
-  let type = vscode.commands.registerCommand("type", manualTyping);
+  const stopTyping = vscode.commands.registerCommand(
+    "typing-simulator.stopTyping",
+    commands.stopTyping,
+  );
 
-  context.subscriptions.push(startTyping, continueTyping, stopTyping, type);
+  const type = vscode.commands.registerCommand("type", manualTyping);
+
+  context.subscriptions.push(
+    startTypingFromFile,
+    startTypingFromClipboard,
+    continueTyping,
+    stopTyping,
+    type,
+  );
 }
 
 export function deactivate() {}
