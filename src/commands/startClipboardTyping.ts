@@ -8,6 +8,7 @@ const startClipboardTyping = async () => {
     return;
   }
 
+  state.loadConfigurations();
   const clipboardText = await vscode.env.clipboard.readText();
 
   state.status = "typing";

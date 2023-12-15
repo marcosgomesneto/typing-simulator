@@ -32,24 +32,44 @@ async function typing(props: TypingProps): Promise<void> {
   var char = text.substring(0, 1);
   var charLength = 1;
 
-  editor
-    .edit(function (editBuilder) {
-      editBuilder.insert(pos, char);
-      if ((eol == "lf" && char == "\n") || (eol == "crlf" && text.substring(0, 2) == "\r\n")) {
-        if (eol == "crlf") charLength = 2;
-        pos = new vscode.Position(pos.line + 1, 0);
-        char = "";
-      }
-    })
-    .then(() => {
-      const nextText = text.substring(charLength, text.length);
-      state.currentTypingText = nextText;
-      const selPos = new vscode.Position(pos.line, pos.character + 1);
-      vscode.window.activeTextEditor!.selection = new vscode.Selection(selPos, selPos);
-      const newPos = new vscode.Position(pos.line, char.length + pos.character);
-      state.lastPosition = newPos;
-      if (state.mode == "auto") delayTyping(nextText, newPos);
-    });
+  await writeText(char, pos);
+
+  if ((eol == "lf" && char == "\n") || (eol == "crlf" && text.substring(0, 2) == "\r\n")) {
+    if (eol == "crlf") charLength = 2;
+    pos = new vscode.Position(pos.line + 1, 0);
+    char = "";
+  }
+
+  const nextText = text.substring(charLength, text.length);
+  state.currentTypingText = nextText;
+  const selPos = new vscode.Position(pos.line, pos.character + 1);
+  vscode.window.activeTextEditor!.selection = new vscode.Selection(selPos, selPos);
+  const newPos = new vscode.Position(pos.line, char.length + pos.character);
+  state.lastPosition = newPos;
+  nextBuffer(nextText, newPos);
+}
+
+async function writeText(text: string, pos: vscode.Position) {
+  return new Promise<void>((resolve, reject) => {
+    try {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) throw new Error("No active editor");
+      editor
+        .edit(function (editBuilder) {
+          editBuilder.insert(pos, text);
+        })
+        .then(
+          () => {
+            resolve();
+          },
+          () => {
+            throw new Error("Error on write text");
+          },
+        );
+    } catch (e) {
+      reject();
+    }
+  });
 }
 
 function manualTyping({ text }: { text: string }) {
@@ -96,16 +116,25 @@ function applyActions(text: string, pos: vscode.Position): string | null {
 
   console.log("NEXT: " + currentLine);
 
-  if (currentLine.match(/\/\/\[ignore-line\]/)) {
+  if (currentLine.trim().match(/\/\/\[ignore\]/)) {
     text = text.substring(currentLine.length + eolLength, text.length);
     const newPos = new vscode.Position(pos.line, 0);
     nextBuffer(text, newPos);
     return null;
   }
 
-  if (currentLine.match(/^\/\/\[pause\]/)) {
-    state.status = "paused";
+  if (currentLine.trim().match(/\/\/\[quick\]/)) {
+    writeText(currentLine, new vscode.Position(pos.line, 0));
     text = text.substring(endOfLinePos, text.length);
+    const newPos = new vscode.Position(pos.line + 1, 0);
+    nextBuffer(text, newPos);
+    return null;
+  }
+
+  const alone = Boolean(currentLine.trim().match(/^\s*\/\/\[pause\]\s*/) && pos.character == 0);
+  if (currentLine.trim().match(/^\/\/\[pause\]/) || alone) {
+    state.status = "paused";
+    text = text.substring(alone ? currentLine.length + eolLength : endOfLinePos, text.length);
     state.currentTypingText = text;
     state.lastPosition = pos;
     return null;

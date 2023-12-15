@@ -8,6 +8,7 @@ const startCurrentFileTyping = () => {
     return;
   }
 
+  state.loadConfigurations();
   state.status = "typing";
   state.eol = vscode.window.activeTextEditor?.document.eol == vscode.EndOfLine.LF ? "lf" : "crlf";
 

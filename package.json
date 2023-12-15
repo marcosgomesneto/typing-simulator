@@ -29,7 +29,40 @@
         "command": "typing-simulator.stopTyping",
         "title": "Typing Simulator: Stop Typing"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Typing Simulator",
+      "properties": {
+        "typingSimulator.mode": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "enumItemLabels": [
+            "Auto",
+            "Manual"
+          ],
+          "default": "auto",
+          "description": "Set typing mode."
+        },
+        "typingSimulator.speed": {
+          "type": "string",
+          "enum": [
+            "slow",
+            "medium",
+            "fast"
+          ],
+          "enumItemLabels": [
+            "Slow",
+            "Medium",
+            "Fast"
+          ],
+          "default": "medium",
+          "description": "Set typing mode."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
