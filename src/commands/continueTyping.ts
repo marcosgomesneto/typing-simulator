@@ -1,12 +1,8 @@
-import { state } from "../state";
-import { typing } from "../typing";
+import Controller from "../Controller";
 
 const continueTyping = () => {
-  state.status = "typing";
-  typing({
-    text: state.currentTypingText,
-    pos: state.lastPosition,
-  });
+  const controller = Controller.getInstance();
+  controller.continueTyping();
 };
 
 export default continueTyping;

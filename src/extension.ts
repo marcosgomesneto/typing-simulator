@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import * as commands from "./commands/load";
-import { manualTyping } from "./typing";
 
 export function activate(context: vscode.ExtensionContext) {
   const startTypingFromFile = vscode.commands.registerCommand(
@@ -23,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
     commands.stopTyping,
   );
 
-  const type = vscode.commands.registerCommand("type", manualTyping);
+  const type = vscode.commands.registerCommand("type", commands.manualTyping);
 
   context.subscriptions.push(
     startTypingFromFile,

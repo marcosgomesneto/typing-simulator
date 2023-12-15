@@ -1,53 +1,46 @@
 import * as vscode from "vscode";
-type Status = "standby" | "typing" | "stoped" | "paused";
-type Mode = "auto" | "manual";
-type EOL = "lf" | "crlf";
-type Speed = "slow" | "medium" | "fast";
+export type Status = "standby" | "typing" | "stoped" | "paused";
+export type Mode = "auto" | "manual";
+export type EOL = "lf" | "crlf";
+export type Speed = "slow" | "medium" | "fast";
 
-class State {
+export class State {
   private _status: Status;
-  private _currentTypingText: string;
-  private _lastPosition: vscode.Position;
+  private _typingText: string;
+  private _position: vscode.Position;
   private _mode: Mode = "auto";
   private _speed: Speed = "medium";
   private _eol: EOL;
 
   constructor() {
-    this.loadConfigurations();
     this._eol = "crlf";
     this._status = "standby";
-    this._currentTypingText = "";
-    this._lastPosition = new vscode.Position(0, 0);
-  }
-
-  loadConfigurations() {
-    const config = vscode.workspace.getConfiguration("typingSimulator");
-    this._mode = config.get<Mode>("mode") ?? this._mode;
-    this._speed = config.get<Speed>("speed") ?? this._speed;
+    this._typingText = "";
+    this._position = new vscode.Position(0, 0);
   }
 
   get status() {
     return this._status;
   }
 
-  set status(value: Status) {
+  setStatus(value: Status) {
     this._status = value;
   }
 
-  get currentTypingText() {
-    return this._currentTypingText;
+  get typingText() {
+    return this._typingText;
   }
 
-  set currentTypingText(value: string) {
-    this._currentTypingText = value;
+  setTypingText(value: string) {
+    this._typingText = value;
   }
 
-  get lastPosition() {
-    return this._lastPosition;
+  get position() {
+    return this._position;
   }
 
-  set lastPosition(value: vscode.Position) {
-    this._lastPosition = value;
+  setPosition(value: vscode.Position) {
+    this._position = value;
   }
 
   get mode() {
@@ -74,5 +67,3 @@ class State {
     this._speed = value;
   }
 }
-
-export const state = new State();

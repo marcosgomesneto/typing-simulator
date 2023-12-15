@@ -1,8 +1,8 @@
-import { state } from "../state";
+import Controller from "../Controller";
 
 const stopTyping = () => {
-  state.status = "stoped";
-  state.currentTypingText = "";
+  const controller = Controller.getInstance();
+  controller.stopTyping();
 };
 
 export default stopTyping;

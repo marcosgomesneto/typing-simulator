@@ -1,21 +1,17 @@
 import * as vscode from "vscode";
-import { state } from "./state";
-import Queue from "promise-queue";
+import { EOL, State, Status } from "./State";
 
 interface TypingProps {
   text: string;
+  state: State;
   pos?: vscode.Position;
 }
 
-const typingConcurrency = 1;
-const typingQueueMaxSize = Number.MAX_SAFE_INTEGER;
-const typingQueue = new Queue(typingConcurrency, typingQueueMaxSize);
-
 async function typing(props: TypingProps): Promise<void> {
-  if (!props.text || props.text.length == 0 || state.status == "stoped") return;
+  if (!props.text || props.text.length == 0 || props.state.status == "stoped") return;
   var text = props.text;
   var pos = props.pos ?? new vscode.Position(0, 0);
-  const eol = state.eol;
+  const eol = props.state.eol;
 
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
@@ -23,7 +19,7 @@ async function typing(props: TypingProps): Promise<void> {
     return;
   }
 
-  const textAction = applyActions(text, pos);
+  const textAction = applyActions(text, pos, props.state);
 
   if (!textAction) return;
 
@@ -41,12 +37,12 @@ async function typing(props: TypingProps): Promise<void> {
   }
 
   const nextText = text.substring(charLength, text.length);
-  state.currentTypingText = nextText;
+  props.state.setTypingText(nextText);
   const selPos = new vscode.Position(pos.line, pos.character + 1);
   vscode.window.activeTextEditor!.selection = new vscode.Selection(selPos, selPos);
   const newPos = new vscode.Position(pos.line, char.length + pos.character);
-  state.lastPosition = newPos;
-  nextBuffer(nextText, newPos);
+  props.state.setPosition(newPos);
+  nextBuffer(nextText, newPos, props.state);
 }
 
 async function writeText(text: string, pos: vscode.Position) {
@@ -72,25 +68,7 @@ async function writeText(text: string, pos: vscode.Position) {
   });
 }
 
-function manualTyping({ text }: { text: string }) {
-  if (state.status == "typing" && state.mode == "manual") {
-    typingQueue.add(() => {
-      return typing({
-        text: state.currentTypingText,
-        pos: state.lastPosition,
-      });
-    });
-  } else if (state.status == "paused" && state.mode == "manual") {
-    if (text == "\n") {
-      state.status = "typing";
-    }
-    //waiting enter
-  } else {
-    vscode.commands.executeCommand("default:type", { text });
-  }
-}
-
-function delayTyping(text: string, pos: vscode.Position) {
+function delayTyping(text: string, pos: vscode.Position, state: State) {
   let delay = 20 + 80 * Math.random();
   if (Math.random() < 0.1) delay += 250;
 
@@ -98,17 +76,18 @@ function delayTyping(text: string, pos: vscode.Position) {
     typing({
       text: text,
       pos: pos,
+      state,
     });
   }, delay);
 }
 
-function nextBuffer(text: string, pos: vscode.Position) {
+function nextBuffer(text: string, pos: vscode.Position, state: State) {
   if (state.status == "typing" && state.mode == "auto") {
-    delayTyping(text, pos);
+    delayTyping(text, pos, state);
   }
 }
 
-function applyActions(text: string, pos: vscode.Position): string | null {
+function applyActions(text: string, pos: vscode.Position, state: State): string | null {
   const eolChar = state.eol == "lf" ? "\n" : "\r\n";
   const eolLength = eolChar.length;
   const endOfLinePos = text.indexOf(eolChar);
@@ -119,7 +98,7 @@ function applyActions(text: string, pos: vscode.Position): string | null {
   if (currentLine.trim().match(/\/\/\[ignore\]/)) {
     text = text.substring(currentLine.length + eolLength, text.length);
     const newPos = new vscode.Position(pos.line, 0);
-    nextBuffer(text, newPos);
+    nextBuffer(text, newPos, state);
     return null;
   }
 
@@ -127,20 +106,20 @@ function applyActions(text: string, pos: vscode.Position): string | null {
     writeText(currentLine, new vscode.Position(pos.line, 0));
     text = text.substring(endOfLinePos, text.length);
     const newPos = new vscode.Position(pos.line + 1, 0);
-    nextBuffer(text, newPos);
+    nextBuffer(text, newPos, state);
     return null;
   }
 
   const alone = Boolean(currentLine.trim().match(/^\s*\/\/\[pause\]\s*/) && pos.character == 0);
   if (currentLine.trim().match(/^\/\/\[pause\]/) || alone) {
-    state.status = "paused";
+    state.setStatus("paused");
     text = text.substring(alone ? currentLine.length + eolLength : endOfLinePos, text.length);
-    state.currentTypingText = text;
-    state.lastPosition = pos;
+    state.setTypingText(text);
+    state.setPosition(pos);
     return null;
   }
 
   return text;
 }
 
-export { typing, manualTyping, applyActions, delayTyping };
+export { typing, applyActions, delayTyping };
