@@ -8,7 +8,7 @@ interface TypingProps {
 }
 
 async function typing(props: TypingProps): Promise<void> {
-  if (!props.text || props.text.length == 0 || props.state.status == "stoped") return;
+  if (!props.text || props.text.length == 0 || props.state.status != "typing") return;
   var text = props.text;
   var pos = props.pos ?? new vscode.Position(0, 0);
   const eol = props.state.eol;
