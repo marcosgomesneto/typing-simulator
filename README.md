@@ -40,6 +40,12 @@ This extension aims to combine the strengths of popular plugins with similar goa
 
 Feel free to explore the documentation for in-depth information on features and customization options.
 
+## Support and Contribution
+
+If you encounter any issues or have suggestions for improvements, feel free to open an [issue](https://github.com/marcosgomesneto/typing-simulator/issues) on the GitHub repository.
+
+If you want to contribute, please open a [pull request](https://github.com/marcosgomesneto/typing-simulator/pulls) in the repository.
+
 **Happy Coding!**
 
 ## Release Notes
