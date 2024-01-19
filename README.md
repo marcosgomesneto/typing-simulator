@@ -2,6 +2,8 @@
 
 The **Typing Simulator** plugin is tailored for live presentations or video tutorials, offering a seamless way to simulate the typing of pre-written code. This feature proves invaluable by eliminating the risk of typos during presentations, allowing you to focus on your speech and presentation rather than worrying about the code input.
 
+Did you like the extension? Please give me a star ⭐ on this project on github.
+
 ## Key Features
 
 - **Code Source Flexibility:** Whether your code is in an open file in VSCode or copied to the clipboard, Typing Simulator has you covered.
