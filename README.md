@@ -26,6 +26,16 @@ The **Typing Simulator** plugin is tailored for live presentations or video tuto
 - **Typing Simulator: Continue Typing**
 - **Typing Simulator: Stop Typing**
 
+## Set actions per line
+
+Comment at the end of each line with:
+
+| Comment      | Action                         |
+| ------------ | ------------------------------ |
+| `//[pause]`  | Pause typing                   |
+| `//[ignore]` | Ignore line                    |
+| `//[quick]`  | Instantly inserts line content |
+
 ## Why Typing Simulator?
 
 This extension aims to combine the strengths of popular plugins with similar goals, such as HackerTyper, CoderTyper, and Live Auto-Type. By offering a feature-rich and customizable typing simulation experience, Typing Simulator ensures a smooth and error-free presentation of code, enhancing the overall quality of your live demos and video tutorials.

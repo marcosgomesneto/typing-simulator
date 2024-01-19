@@ -11,12 +11,14 @@ export class State {
   private _mode: Mode = "auto";
   private _speed: Speed = "medium";
   private _eol: EOL;
+  private _currentDocument: vscode.Uri | null;
 
   constructor() {
     this._eol = "crlf";
     this._status = "standby";
     this._typingText = "";
     this._position = new vscode.Position(0, 0);
+    this._currentDocument = null;
   }
 
   get status() {
@@ -47,8 +49,16 @@ export class State {
     return this._mode;
   }
 
-  set mode(value: Mode) {
+  setMode(value: Mode) {
     this._mode = value;
+  }
+
+  get currentDocument() {
+    return this._currentDocument;
+  }
+
+  setCurrentDocument(value: vscode.Uri) {
+    this._currentDocument = value;
   }
 
   get eol() {
@@ -63,7 +73,7 @@ export class State {
     return this._speed;
   }
 
-  set speed(value: Speed) {
+  setSpeed(value: Speed) {
     this._speed = value;
   }
 }

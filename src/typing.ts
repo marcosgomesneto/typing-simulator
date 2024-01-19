@@ -14,8 +14,8 @@ async function typing(props: TypingProps): Promise<void> {
   const eol = props.state.eol;
 
   const editor = vscode.window.activeTextEditor;
-  if (!editor) {
-    vscode.window.showErrorMessage("No active editor");
+  if (!editor || editor.document.uri != props.state.currentDocument) {
+    props.state.setStatus("stoped");
     return;
   }
 
@@ -69,8 +69,10 @@ async function writeText(text: string, pos: vscode.Position) {
 }
 
 function delayTyping(text: string, pos: vscode.Position, state: State) {
-  let delay = 20 + 80 * Math.random();
-  if (Math.random() < 0.1) delay += 250;
+  const sppedMultiplier = state.speed == "slow" ? 200 : state.speed == "medium" ? 100 : 50;
+  let delay = sppedMultiplier * Math.random();
+  if (Math.random() < 0.1)
+    delay += state.speed == "slow" ? 300 : state.speed == "medium" ? 250 : 130;
 
   setTimeout(function () {
     typing({
@@ -93,8 +95,6 @@ function applyActions(text: string, pos: vscode.Position, state: State): string 
   const endOfLinePos = text.indexOf(eolChar);
   const currentLine = text.split(eolChar)[0];
 
-  console.log("NEXT: " + currentLine);
-
   if (currentLine.trim().match(/\/\/\[ignore\]/)) {
     text = text.substring(currentLine.length + eolLength, text.length);
     const newPos = new vscode.Position(pos.line, 0);
@@ -103,7 +103,8 @@ function applyActions(text: string, pos: vscode.Position, state: State): string 
   }
 
   if (currentLine.trim().match(/\/\/\[quick\]/)) {
-    writeText(currentLine, new vscode.Position(pos.line, 0));
+    const quickText = currentLine.replace(/\/\/\[quick\]/, "");
+    writeText(quickText, new vscode.Position(pos.line, 0));
     text = text.substring(endOfLinePos, text.length);
     const newPos = new vscode.Position(pos.line + 1, 0);
     nextBuffer(text, newPos, state);

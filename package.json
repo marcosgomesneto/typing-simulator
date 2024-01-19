@@ -3,6 +3,37 @@
   "displayName": "Typing Simulator",
   "description": "Simulates typing for use in presentations or live video recordings. Typing from file or clipboard, with auto typing mode or manual typing mode.",
   "version": "0.0.1",
+  "publisher": "marcos-gomes-neto",
+  "author": {
+    "name": "Marcos Gomes Neto",
+    "email": "contact@marcosgomesneto.dev"
+  },
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "homepage": "https://github.com/marcosgomesneto/typing-simulator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcosgomesneto/typing-simulator.git"
+  },
+  "keywords": [
+    "typing",
+    "simulator",
+    "simulation",
+    "presentation",
+    "video",
+    "type",
+    "recorder",
+    "clipboard",
+    "auto",
+    "manual",
+    "hackertyper",
+    "keyboard",
+    "typescript",
+    "teach",
+    "teacher",
+    "keybindings",
+    "live"
+  ],
   "engines": {
     "vscode": "^1.84.0"
   },

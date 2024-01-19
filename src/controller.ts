@@ -22,16 +22,36 @@ class Controller {
     return Controller.instance;
   }
 
-  public startTyping(text: string) {
+  public startTyping(text: string, document: vscode.TextDocument, position?: vscode.Position) {
+    vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
+      if (document.uri != this.state.currentDocument) return;
+      this.state.setStatus("stoped");
+      vscode.window.showInformationMessage(
+        "Typing Simulator: I stopped the simulator because you closed the file.",
+      );
+      return;
+    });
+
+    this.state.setCurrentDocument(document.uri);
     this.loadConfigurations();
     this.state.setTypingText(text);
-    this.state.setStatus("typing");
-    const docEol = vscode.window.activeTextEditor?.document.eol ?? vscode.EndOfLine.LF;
+    const docEol = document.eol ?? vscode.EndOfLine.LF;
     this.state.eol = docEol == vscode.EndOfLine.LF ? "lf" : "crlf";
-    if (this.state.mode == "auto") typing({ text: text, state: this.state });
+    this.state.setStatus("typing");
+    if (this.state.mode == "auto") {
+      typing({ text: text, state: this.state, pos: position ?? new vscode.Position(0, 0) });
+    }
+    if (this.state.mode == "manual") {
+      this.state.setPosition(position ?? new vscode.Position(0, 0));
+    }
   }
 
   public continueTyping() {
+    if (this.state.status == "standby") {
+      vscode.window.showErrorMessage("Typing Simulator: You need to start typing.");
+      return;
+    }
+    this.loadConfigurations();
     this.state.setStatus("typing");
     typing({
       text: this.state.typingText,
@@ -65,8 +85,8 @@ class Controller {
 
   private loadConfigurations() {
     const config = vscode.workspace.getConfiguration("typingSimulator");
-    this.state.mode = config.get<Mode>("mode") ?? "auto";
-    this.state.speed = config.get<Speed>("speed") ?? "medium";
+    this.state.setMode(config.get<Mode>("mode") ?? "auto");
+    this.state.setSpeed(config.get<Speed>("speed") ?? "medium");
   }
 }
 
