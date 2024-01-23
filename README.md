@@ -2,6 +2,8 @@
 
 The **Typing Simulator** plugin is tailored for live presentations or video tutorials, offering a seamless way to simulate the typing of pre-written code. This feature proves invaluable by eliminating the risk of typos during presentations, allowing you to focus on your speech and presentation rather than worrying about the code input.
 
+You can also use this extension to impress your boss or your friends 😄. Activate `Auto` mode, and simply start typing any key to see your code materialize effortlessly.
+
 Did you like the extension? Please give me a star ⭐ on this project on github and contribute to the project.
 
 👉 [Project Repository](https://github.com/marcosgomesneto/typing-simulator)
@@ -28,7 +30,7 @@ Press `CTRL` + `SHIFT` + `P`, search for the `User Settings` and Search `Typing 
 - **Two Simulation Modes:**
 
   - _Automatic:_ Let the plugin simulate human-like typing automatically.
-  - _Manual:_ Control the simulation by manually pressing keys, offering flexibility and a more interactive experience during presentations.
+  - _Manual:_ Control the simulation by manually typing any keys randomly, offering flexibility and a more interactive experience during presentations.
 
 - **Customizable Simulation Behavior:**
 

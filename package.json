@@ -1,8 +1,8 @@
 {
   "name": "typing-simulator",
   "displayName": "Typing Simulator",
-  "description": "Simulates typing for use in presentations or live video recordings. Typing from file or clipboard, with auto typing mode or manual typing mode.",
-  "version": "0.0.2",
+  "description": "Simulates typing for use in presentations or live video recordings or just for fake coding to impress your boss ^^.",
+  "version": "0.0.3",
   "publisher": "marcos-gomes-neto",
   "author": {
     "name": "Marcos Gomes Neto",
@@ -32,7 +32,9 @@
     "teach",
     "teacher",
     "keybindings",
-    "live"
+    "live",
+    "fake",
+    "code"
   ],
   "engines": {
     "vscode": "^1.84.0"
