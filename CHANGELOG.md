@@ -1,9 +1,9 @@
-# Change Log
+# Typing Simulator Change Log
 
-All notable changes to the "typing-simulator" extension will be documented in this file.
+## v0.0.2 - 2024-01-22
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Add support character `#`
 
-## [Unreleased]
+## v0.0.1 - 2024-01-19
 
 - Initial release
