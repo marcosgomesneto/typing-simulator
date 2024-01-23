@@ -2,7 +2,24 @@
 
 The **Typing Simulator** plugin is tailored for live presentations or video tutorials, offering a seamless way to simulate the typing of pre-written code. This feature proves invaluable by eliminating the risk of typos during presentations, allowing you to focus on your speech and presentation rather than worrying about the code input.
 
-Did you like the extension? Please give me a star ⭐ on this project on github.
+Did you like the extension? Please give me a star ⭐ on this project on github and contribute to the project.
+
+👉 [Project Repository](https://github.com/marcosgomesneto/typing-simulator)
+
+## Usage
+
+1. Install the `Typing Simulator` extension in VSCode.
+2. Open a code file or copy the code to the clipboard.
+3. Optionally, define the actions for each line (See the table below).
+4. Press `CTRL` + `SHIFT` + `P`, search for the `Start Typing: ...` command.
+5. Set up custom shortcuts for a seamless presentation experience.
+6. Enjoy an engaging and hassle-free coding presentation or tutorial!
+
+## Configure
+
+Press `CTRL` + `SHIFT` + `P`, search for the `User Settings` and Search `Typing Simulator`.
+
+![screenshot](https://raw.githubusercontent.com/marcosgomesneto/typing-simulator/main/resources/configuration.png)
 
 ## Key Features
 
@@ -28,29 +45,21 @@ Did you like the extension? Please give me a star ⭐ on this project on github.
 - **Typing Simulator: Continue Typing**
 - **Typing Simulator: Stop Typing**
 
+Feel free to explore the documentation for in-depth information on features and customization options.
+
 ## Set actions per line
 
 Comment at the end of each line with:
 
-| Comment      | Action                         |
-| ------------ | ------------------------------ |
-| `//[pause]`  | Pause typing                   |
-| `//[ignore]` | Ignore line                    |
-| `//[quick]`  | Instantly inserts line content |
+| End-Line Comment            | Action                         |
+| --------------------------- | ------------------------------ |
+| `//[pause]` or `#[pause]`   | Pause typing                   |
+| `//[ignore]` or `#[ignore]` | Ignore line                    |
+| `//[quick]` or `#[quick]`   | Instantly inserts line content |
 
 ## Why Typing Simulator?
 
-This extension aims to combine the strengths of popular plugins with similar goals, such as HackerTyper, CoderTyper, and Live Auto-Type. By offering a feature-rich and customizable typing simulation experience, Typing Simulator ensures a smooth and error-free presentation of code, enhancing the overall quality of your live demos and video tutorials.
-
-## Getting Started
-
-1. Install the extension from the VSCode Marketplace.
-2. Open a code file or copy code to the clipboard.
-3. Configure simulation settings for each line.
-4. Set up custom shortcuts for a seamless presentation experience.
-5. Enjoy a hassle-free and engaging coding presentation or tutorial!
-
-Feel free to explore the documentation for in-depth information on features and customization options.
+This extension aims to combine the strengths of plugins with similar goals, such as HackerTyper, CoderTyper, and Live Auto-Type. By offering a feature-rich and customizable typing simulation experience, Typing Simulator ensures a smooth and error-free presentation of code, enhancing the overall quality of your live demos and video tutorials.
 
 ## Support and Contribution
 
@@ -62,7 +71,13 @@ If you want to contribute, please open a [pull request](https://github.com/marco
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.2
+
+Add support for comment character `#`
+
+---
+
+### 0.0.1
 
 Hello! Wellcome to initial version
 

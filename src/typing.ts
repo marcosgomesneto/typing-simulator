@@ -95,15 +95,15 @@ function applyActions(text: string, pos: vscode.Position, state: State): string 
   const endOfLinePos = text.indexOf(eolChar);
   const currentLine = text.split(eolChar)[0];
 
-  if (currentLine.trim().match(/\/\/\[ignore\]/)) {
+  if (currentLine.trim().match(/(\/\/|#)\[ignore\]/)) {
     text = text.substring(currentLine.length + eolLength, text.length);
     const newPos = new vscode.Position(pos.line, 0);
     nextBuffer(text, newPos, state);
     return null;
   }
 
-  if (currentLine.trim().match(/\/\/\[quick\]/)) {
-    const quickText = currentLine.replace(/\/\/\[quick\]/, "");
+  if (currentLine.trim().match(/(\/\/|#)\[quick\]/)) {
+    const quickText = currentLine.replace(/(\/\/|#)\[quick\]/, "");
     writeText(quickText, new vscode.Position(pos.line, 0));
     text = text.substring(endOfLinePos, text.length);
     const newPos = new vscode.Position(pos.line + 1, 0);
@@ -111,8 +111,8 @@ function applyActions(text: string, pos: vscode.Position, state: State): string 
     return null;
   }
 
-  const alone = Boolean(currentLine.trim().match(/^\s*\/\/\[pause\]\s*/) && pos.character == 0);
-  if (currentLine.trim().match(/^\/\/\[pause\]/) || alone) {
+  const alone = Boolean(currentLine.trim().match(/^\s*(\/\/|#)\[pause\]\s*/) && pos.character == 0);
+  if (currentLine.trim().match(/^(\/\/|#)\[pause\]/) || alone) {
     state.setStatus("paused");
     text = text.substring(alone ? currentLine.length + eolLength : endOfLinePos, text.length);
     state.setTypingText(text);

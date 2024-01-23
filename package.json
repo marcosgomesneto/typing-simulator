@@ -2,7 +2,7 @@
   "name": "typing-simulator",
   "displayName": "Typing Simulator",
   "description": "Simulates typing for use in presentations or live video recordings. Typing from file or clipboard, with auto typing mode or manual typing mode.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "marcos-gomes-neto",
   "author": {
     "name": "Marcos Gomes Neto",
