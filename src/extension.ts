@@ -2,18 +2,11 @@ import * as vscode from "vscode";
 import * as commands from "./commands/load";
 
 export function activate(context: vscode.ExtensionContext) {
-  let type: vscode.Disposable | null = null;
-
-  const registerManualType = () => {
-    if (type) return;
-    type = vscode.commands.registerCommand("type", commands.manualTyping);
-    context.subscriptions.push(type);
-  };
+  const manualTyping = vscode.commands.registerCommand("type", commands.manualTyping);
 
   const startTypingFromFile = vscode.commands.registerCommand(
     "typing-simulator.startCurrentFileTyping",
     () => {
-      registerManualType();
       commands.startCurrentFileTyping();
     },
   );
@@ -21,7 +14,6 @@ export function activate(context: vscode.ExtensionContext) {
   const startTypingFromClipboard = vscode.commands.registerCommand(
     "typing-simulator.startClipboardTyping",
     () => {
-      registerManualType();
       commands.startClipboardTyping();
     },
   );
@@ -33,11 +25,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   const stopTyping = vscode.commands.registerCommand("typing-simulator.stopTyping", () => {
     commands.stopTyping();
-    type?.dispose();
-    type = null;
   });
 
   context.subscriptions.push(
+    manualTyping,
     startTypingFromFile,
     startTypingFromClipboard,
     continueTyping,

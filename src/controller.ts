@@ -74,6 +74,7 @@ class Controller {
         });
       });
     } else if (this.state.status == "paused" && this.state.mode == "manual") {
+      vscode.commands.executeCommand("default:type", { text });
       if (text == "\n") {
         this.state.setStatus("typing");
       }
