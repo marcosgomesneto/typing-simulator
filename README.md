@@ -73,6 +73,10 @@ If you want to contribute, please open a [pull request](https://github.com/marco
 
 ## Release Notes
 
+### 0.1.2
+
+Change icon
+
 ### 0.1.1
 
 Fix error 'Command not found' when start typing
